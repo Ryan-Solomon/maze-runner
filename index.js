@@ -4,6 +4,8 @@ const width = 600;
 const height = 600;
 const cells = 3;
 
+const unitLength = width / cells;
+
 const engine = Engine.create();
 const { world } = engine;
 const render = Render.create({
@@ -53,12 +55,52 @@ const stepThroughCell = (row, col) => {
     grid[row][col] = true;
     
     const neighbors = shuffle([
-        [row - 1, col],
-        [row, col + 1],
-        [row + 1, col],
-        [row, col - 1]
+        [row - 1, col, 'up'],
+        [row, col + 1, 'right'],
+        [row + 1, col, 'down'],
+        [row, col - 1, 'left']
     ]);
+
+    for (let neighbor of neighbors) {
+        const [nxtRow, nxtCol, direction] = neighbor;
+        if (nxtRow < 0 || nxtRow >= cells || nxtCol < 0 || nxtCol >= cells) continue;
+
+        if (grid[nxtRow][nxtCol]) continue;
+       
+        if (direction === 'left') {
+            verticals[row][col - 1] = true;
+        } else if (direction === 'right') {
+            verticals[row][col] = true;
+        } else if (direction === 'up') {
+            horizontals[row - 1][col] = true;
+        } else if (direction === 'down') {
+            horizontals[row][col] = true;
+        }
+    }
+
+stepThroughCell(nxtRow,nxtCol)
+
+
+
 
 }
 
 stepThroughCell(startRow, startCol)
+
+horizontals.forEach((row) => {
+    row.forEach((open) => {
+        if (open) return;
+        
+        const wall = Bodies.rectangle(
+
+            colIdx * unitLength + unitLength / 2,
+            rowIdx * unitLength + unitLength,
+            unitLength,
+            10,
+            {
+                isStatic: true
+            }
+        );
+        World.add(world, wall)
+    })
+})
