@@ -2,6 +2,7 @@ const { Engine, Render, Runner, World, Bodies } = Matter;
 
 const width = 600;
 const height = 600;
+const cells = 3;
 
 const engine = Engine.create();
 const { world } = engine;
@@ -28,6 +29,36 @@ World.add(world, walls);
 
 // Maze Generation
 
-const grid = new Array(3).fill(null).map(() => new Array(3).fill(false))
-const verticals = new Array(3).fill(null).map(() => new Array(2).fill(false))
-const horizontals = new Array(3).fill(null).map(() => new Array(2).fill(false))
+const shuffle = (arr) => {
+    let counter = arr.length;
+    while (counter > 0) {
+        const idx = math.floor(Math.random() * counter)
+        counter--;
+        const tmp = arr[counter]
+        arr[counter] = arr[idx]
+        arr[idx] = tmp
+    }
+    return arr;
+}
+
+const grid = new Array(cells).fill(null).map(() => new Array(cells).fill(false))
+const verticals = new Array(cells).fill(null).map(() => new Array(cells - 1).fill(false))
+const horizontals = new Array(cells).fill(null).map(() => new Array(cells - 1).fill(false))
+
+const startRow = Math.floor(Math.random() * cells)
+const startCol = Math.floor(Math.random() * cells)
+
+const stepThroughCell = (row, col) => {
+    if (grid[row][col]) return;
+    grid[row][col] = true;
+    
+    const neighbors = shuffle([
+        [row - 1, col],
+        [row, col + 1],
+        [row + 1, col],
+        [row, col - 1]
+    ]);
+
+}
+
+stepThroughCell(startRow, startCol)
