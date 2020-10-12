@@ -7,6 +7,7 @@ const cells = 3;
 const unitLength = width / cells;
 
 const engine = Engine.create();
+engine.world.gravity.y = 0;
 const { world } = engine;
 const render = Render.create({
   element: document.body,
@@ -172,7 +173,6 @@ document.addEventListener('keydown', event => {
     }
     if (event.keyCode === 65) {
         Body.setVelocity(ball, {x: x - 5,y})
-        
     }
     
 })
