@@ -104,3 +104,23 @@ horizontals.forEach((row) => {
         World.add(world, wall)
     })
 })
+
+verticals.forEach((row, rowIdx) => {
+    row.forEach((open, colIdx) => {
+        if (open) {
+            return;
+        }
+        const wall = Bodies.rectangle(
+            colIdx * unitLength + unitLength,
+            rowIdx + unitLength + unitLength / 2,
+            10,
+            unitLength,
+            {
+                isStatic: true
+            }
+        );
+        World.add(world, wall)
+        
+    })
+
+})
