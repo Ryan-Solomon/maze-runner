@@ -123,4 +123,17 @@ verticals.forEach((row, rowIdx) => {
         
     })
 
-})
+});
+
+const goal = Bodies.rectangle(
+    width - unitLength / 2,
+    height - unitLength / 2,
+    unitLength * .7,
+    unitLength * .7,
+    {
+        isStatic: true
+    }
+
+)
+
+World.add(world, goal)
